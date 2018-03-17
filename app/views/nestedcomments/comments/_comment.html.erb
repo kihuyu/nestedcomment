@@ -1,0 +1,16 @@
+
+<% flash.each do |key, value| %>
+<div class="<%= key %>"><%= value %></div>
+<% end %>
+<% @comments.each do |comment| %>
+    <tr>
+    <td><%= time_ago_in_words(comment.created_at) %> ago by <%= comment.username %></td>
+    <td><%= comment.body %></td>
+    <td><div class="reply-button">reply</div></td>
+    <td><div class="reply-form">
+      <%= form_with model:  @comment, local: true do |f| %>
+        <%= f.text_area :body %>
+        <%= f.submit "save" %></td>
+      <% end %>
+    </div>
+    <% end %>
