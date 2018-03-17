@@ -2,15 +2,35 @@
 <% flash.each do |key, value| %>
 <div class="<%= key %>"><%= value %></div>
 <% end %>
-<% @comments.each do |comment| %>
+<%= form_with model: @comment, local: true do |form| %>
+  <%= form.text_area :orig_comment_body %>
+  <%= form.submit "Add comment" %>
+  <% @comments.each do |comment| %>
+  <br />
+  <% if comment.article_id == session[:id] && comment.commentable_type == 'Article' %>
     <tr>
     <td><%= time_ago_in_words(comment.created_at) %> ago by <%= comment.username %></td>
+  </br>
     <td><%= comment.body %></td>
-    <td><div class="reply-button">reply</div></td>
-    <td><div class="reply-form">
+  </br>
       <%= form_with model:  @comment, local: true do |f| %>
         <%= f.text_area :body %>
-        <%= f.submit "save" %></td>
+        <%= f.hidden_field(:commentable_id, :value => comment.id) %>
+        <%= f.submit "reply" %>
+      </br>
+        <% @comments.each do |subcom| %>
+          <% if subcom.article_id == session[:id] && subcom.commentable_id == comment.id %>
+          <tr>
+            <td><%= time_ago_in_words(subcom.created_at) %> ago by <%= subcom.username %></td>
+          </br>
+            <td><%= subcom.body %></td>
+          </br>
+          </tr>
+          <% end %>
+          <% end %>
       <% end %>
-    </div>
+      <% end %>
+      <% end %>
+
     <% end %>
+    <%= link_to "Home", main_app.root_path %>

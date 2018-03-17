@@ -14,6 +14,14 @@ module Nestedcomments
     @comment = Comment.new (comment_params)
     @comment.username = session[:username]
     @comment.article_id = session[:id]
+    if params['commit'] == "reply"
+      @comment.commentable_type = "Comment"
+    else
+      @comment.commentable_type = "Article"
+      @comment.commentable_id = session[:id]
+      @comment.body = params['orig_comment_body']
+      session[:comment_id] = @comment.id
+    end
     if @comment.save
       redirect_to comments_path, alert: "Posted"
     else
@@ -24,11 +32,8 @@ module Nestedcomments
   private
 
   def comment_params
-    params.permit(:body, :username, :article_id)
+    params.permit(:body, :username, :commentable_id, :commentable_type)
   end
 
-  #def find_commentable
-  #  @commentable = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
-  #end
   end
 end
