@@ -1,0 +1,14 @@
+<p>
+  <strong>Comment:</strong>
+  <%= @comment.body %>
+</p>
+<p>
+  <strong>Author:</strong>
+  <%= @comment.username %>
+</p>
+<p>
+  <strong>Published on:</strong>
+  <%= @comment.created_at %>
+</p>
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

@@ -12,6 +12,11 @@
     <td><%= time_ago_in_words(comment.created_at) %> ago by <%= comment.username %></td>
   </br>
     <td><%= comment.body %></td>
+      <td><%= link_to 'Show', comment_path(comment) %></td>
+      <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+      <td><%= link_to 'Destroy', comment_path(comment),
+             method:  :delete,
+             data: { confirm: 'Are you sure?' } %></td>
   </br>
       <%= form_with model:  @comment, local: true do |f| %>
         <%= f.text_area :body %>
@@ -24,6 +29,11 @@
             <td><%= time_ago_in_words(subcom.created_at) %> ago by <%= subcom.username %></td>
           </br>
             <td><%= subcom.body %></td>
+            <td><%= link_to 'Show', comment_path(subcom) %></td>
+            <td><%= link_to 'Edit', edit_comment_path(subcom) %></td>
+            <td><%= link_to 'Destroy', comment_path(subcom),
+                   method:  :delete,
+                   data: { confirm: 'Are you sure?' } %></td>
           </br>
           </tr>
           <% end %>

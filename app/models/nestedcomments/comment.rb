@@ -1,5 +1,5 @@
 module Nestedcomments
   class Comment < ApplicationRecord
-    validates :comment_body, presence: true
+    validates :body, presence: true
   end
 end
